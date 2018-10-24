@@ -10,7 +10,7 @@ import logging
 
 def open_images():
 	try:
-		foto = open("fenix.png",'rb')
+		foto = open("fenixLogo.png",'rb')
 		return foto
 	except IOError:
 		return -1
@@ -60,6 +60,7 @@ def fotosexy(bot, update):
 # get the token
 if os.path.isfile('token.txt'):
         file = open('token.txt','r')
+        print("i'0m gay")
         tokenFromFile = file.readline()
 else:
         print("couldn't find the file")
