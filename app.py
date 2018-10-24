@@ -1,3 +1,5 @@
+import os.path
+import sys
 from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
 from telegram import MessageEntity
@@ -56,8 +58,12 @@ def fotosexy(bot, update):
 
 
 # get the token
-file = open('token.txt','r')
-tokenFromFile = file.readline()
+if os.path.isfile('token.txt'):
+        file = open('token.txt','r')
+        tokenFromFile = file.readline()
+else:
+        print("couldn't find the file")
+        sys.exit()
 
 foto = open_images()
 # la clase updater es la que realiza las actualizaciones de contenido
