@@ -1,4 +1,4 @@
-import os.path
+import os
 import sys
 from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
@@ -63,7 +63,12 @@ if os.path.isfile('token.txt'):
         print("i'0m gay")
         tokenFromFile = file.readline()
 else:
-        print("couldn't find the file")
+        print("couldn't find the file token.txt .... looking for one...")
+        result = []
+        for root, dirs, files in os.walk(path):
+                if name in files:
+                result.append(os.path.join(root, name))
+        return result
         sys.exit()
 
 foto = open_images()
