@@ -65,10 +65,11 @@ if os.path.isfile('token.txt'):
 else:
         print("couldn't find the file token.txt .... looking for one...")
         result = []
-        for root, dirs, files in os.walk(path):
+        name = 'token.txt'
+        for root, dirs, files in os.walk('./'):
                 if name in files:
-                result.append(os.path.join(root, name))
-        return result
+                        result.append(os.path.join(root, name))
+        print(result)
         sys.exit()
 
 foto = open_images()
