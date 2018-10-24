@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pip install python-telegram-bot 
+python app.py
