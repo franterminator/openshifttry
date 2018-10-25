@@ -5,6 +5,8 @@ from telegram.ext import MessageHandler, Filters
 from telegram import MessageEntity
 from telegram.ext import BaseFilter
 from telegram.ext import CommandHandler
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import InlineQueryHandler
 import logging
 
 
@@ -56,6 +58,24 @@ def fotosexy(bot, update):
 
 
 
+def inline_caps(bot, update):
+    query = update.inline_query.query
+    if not query:
+        return
+    results = list()
+    results.append(
+        InlineQueryResultArticle(
+            id=query.upper(),
+            title='Caps',
+            input_message_content=InputTextMessageContent(query.upper())
+        )
+    )
+    bot.answer_inline_query(update.inline_query.id, results)
+
+
+
+
+
 
 # get the token
 if os.path.isfile('token.txt'):
@@ -94,5 +114,9 @@ sexy_handler = CommandHandler('sexy', fotosexy, pass_args=False)
 foto_handler = CommandHandler('foto', fotosexy, pass_args=False)
 dispatcher.add_handler(sexy_handler)
 dispatcher.add_handler(foto_handler)
+
+inline_caps_handler = InlineQueryHandler(inline_caps)
+dispatcher.add_handler(inline_caps_handler)
+
 
 updater.start_polling()
