@@ -60,17 +60,13 @@ def fotosexy(bot, update):
 # get the token
 if os.path.isfile('token.txt'):
         file = open('token.txt','r')
-        print("i'0m gay")
+        print("TOKEN FILE FIND")
         tokenFromFile = file.readline()
 else:
-        print("couldn't find the file token.txt .... looking for one...")
-        result = []
-        name = 'token.txt'
-        for root, dirs, files in os.walk('./'):
-                if name in files:
-                        result.append(os.path.join(root, name))
-        print(result)
-        print(os.environ['TOKEN'])
+        print("couldn't find the file token file .... looking for token in env variables...")
+        if os.environ['TOKEN'] is None:
+        	sys.exit(1)
+        tokenFromFile = os.environ['TOKEN']
 
 foto = open_images()
 # la clase updater es la que realiza las actualizaciones de contenido
