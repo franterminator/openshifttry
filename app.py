@@ -70,7 +70,7 @@ else:
                 if name in files:
                         result.append(os.path.join(root, name))
         print(result)
-        sys.exit()
+        print(os.environ['TOKEN'])
 
 foto = open_images()
 # la clase updater es la que realiza las actualizaciones de contenido
