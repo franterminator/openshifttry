@@ -66,7 +66,7 @@ def alguien_para_function(bot,update):
 	text_from_user = text_from_user + update.message.text
 	text_from_user = text_from_user + "**"
 
-	bot.delete_message(chat_id=chat_id, message_id=message_id)
+	#bot.delete_message(chat_id=chat_id, message_id=message_id)
 
 	button_list = [[InlineKeyboardButton("Me apunto",callback_data='IamIn')]]
 	reply_markup = InlineKeyboardMarkup(button_list)
@@ -78,26 +78,29 @@ def alguien_para_menu_function(bot,update):
 	print("Someone press a button")
 	print(update.callback_query)
 
-	callback_query_id = update.callback_query.id
-	chat_id = update.callback_query.message.chat.id
-	message_id = update.callback_query.message.message_id
-	usuario = update.callback_query.message.chat.username
+	callback = update.callback_query
+	callback_query_id = callback.id
+	chat_id = callback.message.chat.id
+	message_id = callback.message.message_id
+	usuario = callback.from_user.first_name
 
-	text = "**"
-	text = text + update.callback_query.message.text
-	text = text + "**"
+	if('**' in update.callback_query.message.text):
+		text = update.callback_query.message.text
+	else:
+		text = '**' + update.callback_query.message.text + '**'
 	text = text + '\n \t \t \t - ' + usuario
-	
 
 	button_name = update.callback_query.data
 
 	button_list = [[InlineKeyboardButton("Me apunto",callback_data='IamIn')]]
 	reply_markup = InlineKeyboardMarkup(button_list)
 
-	if(button_name == 'IamIn'):
+	if(button_name == 'IamIn' and usuario not in update.callback_query.message.text):
 		bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
 		bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
 		bot.answer_callback_query(callback_query_id=callback_query_id, text="Te has apuntado")
+	else:
+		bot.answer_callback_query(callback_query_id=callback_query_id, text="Ya estabas apuntado")
 
 
 
