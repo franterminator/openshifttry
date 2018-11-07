@@ -35,11 +35,12 @@ class FilterAlguienPara(BaseFilter):
 
 
 
+
 def start(bot, update):
 	bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
 
-def echo(bot, update):
+def delete_spam(bot, update):
 	print(update.message.chat)
 
 	chat_id = update.message.chat_id
@@ -57,23 +58,46 @@ def echo(bot, update):
 
 
 def alguien_para_function(bot,update):
-	print(update.message.chat)
-
 	chat_id = update.message.chat_id
+	message_id = update.message.message_id
 	usuario = update.message.from_user
-	text_from_user = update.message.text
 
-	button_list = [[InlineKeyboardButton("Me apunto",callback_data='bt1')]]
+	text_from_user = "**"
+	text_from_user = text_from_user + update.message.text
+	text_from_user = text_from_user + "**"
+
+	bot.delete_message(chat_id=chat_id, message_id=message_id)
+
+	button_list = [[InlineKeyboardButton("Me apunto",callback_data='IamIn')]]
 	reply_markup = InlineKeyboardMarkup(button_list)
 	bot.send_message(chat_id=chat_id, text=text_from_user, reply_markup=reply_markup)
 
 
 def alguien_para_menu_function(bot,update):
+	print("")
+	print("Someone press a button")
 	print(update.callback_query)
+
+	callback_query_id = update.callback_query.id
 	chat_id = update.callback_query.message.chat.id
+	message_id = update.callback_query.message.message_id
+	usuario = update.callback_query.message.chat.username
+
+	text = "**"
+	text = text + update.callback_query.message.text
+	text = text + "**"
+	text = text + '\n \t \t \t - ' + usuario
+	
+
 	button_name = update.callback_query.data
 
-	bot.send_message(chat_id=chat_id, text=button_name)
+	button_list = [[InlineKeyboardButton("Me apunto",callback_data='IamIn')]]
+	reply_markup = InlineKeyboardMarkup(button_list)
+
+	if(button_name == 'IamIn'):
+		bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
+		bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
+		bot.answer_callback_query(callback_query_id=callback_query_id, text="Te has apuntado")
 
 
 
@@ -84,7 +108,7 @@ def fotosexy(bot, update):
 
 def version(bot,update):
 	chat_id = update.message.chat_id
-	version_text = 'version 1.1'
+	version_text = 'version 1.3'
 	bot.send_message(chat_id=chat_id,text=version_text)
 
 
@@ -123,7 +147,7 @@ dispatcher.add_handler(start_handler)
 
 
 filter_twitch = FilterTwitch()
-twitch_handler = MessageHandler(filter_twitch, echo)
+twitch_handler = MessageHandler(filter_twitch, delete_spam)
 dispatcher.add_handler(twitch_handler)
 
 sexy_handler = CommandHandler('sexy', fotosexy, pass_args=False)
